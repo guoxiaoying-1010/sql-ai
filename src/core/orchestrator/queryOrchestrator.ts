@@ -1,6 +1,7 @@
 import { buildContext } from "../context/contextBuilder";
 import { runSQLAgent } from "../llm/sqlAgent";
 import { validateSQL } from "../validator/sqlValidator";
+import { addHistory } from "../history/store";
 
 export async function queryOrchestrator(userInput: string): Promise<string> {
   const context = await buildContext(userInput);
@@ -9,9 +10,8 @@ export async function queryOrchestrator(userInput: string): Promise<string> {
 
   const valid = validateSQL(sql, context.schema);
 
-  if (!valid) {
-    return "无法生成SQL";
-  }
+  const result = valid ? sql : "无法生成SQL";
+  addHistory(userInput, result);
 
-  return sql;
+  return result;
 }
