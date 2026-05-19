@@ -1,0 +1,10 @@
+[
+  {
+    "name": "新增用户",
+    "definition": "user_table.create_time 在时间范围内"
+  },
+  {
+    "name": "GMV",
+    "definition": "sum(order_table.pay_amount)"
+  }
+]
